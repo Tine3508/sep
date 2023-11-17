@@ -2,35 +2,82 @@ namespace SpriteKind {
     export const trash = SpriteKind.create()
     export const trashCan = SpriteKind.create()
 }
-// function game() {
-// 
-// let level = 1
-// 
-// const currentObjects = items.filter((item) => item.trashType).splice(0,(level * 2)
-// 
-// }
+function generateWasteObjectsForLevel (level: number) {
+    items.forEach(item => item.sprite.setPosition(-50, -50))
+    while (selectedTrashTypes.length < level) {
+        randomTrashType2 = Math.floor(Math.random() * Object.keys(TrashType).length / 2) + 1
+        if (!(selectedTrashTypes.some(item => item == randomTrashType2))) {
+            selectedTrashTypes.push(randomTrashType2)
+        }
+    }
+    items = items.filter(item => selectedTrashTypes.some(tt => item.trashType))
+}
 info.onScore(3, function () {
     game.gameOver(true)
     game.setGameOverEffect(true, effects.confetti)
 })
-sprites.onOverlap(SpriteKind.Player, SpriteKind.trash, function (sprite, otherSprite) {
-    otherSprite.follow(sprite, 200)
-    if (apple.overlapsWith(foodWaste)) {
-        info.changeScoreBy(1)
-        sprites.destroy(apple)
-    }
-    if (bag.overlapsWith(plasticWaste)) {
-        info.changeScoreBy(1)
-        sprites.destroy(bag)
-    }
-})
-let can: Sprite = null
-let bag: Sprite = null
-let apple: Sprite = null
-let banana: Sprite = null
-let foodWaste: Sprite = null
-let metalWaste: Sprite = null
-let plasticWaste: Sprite = null
+function setupOverlapHandlers () {
+    sprites.onOverlap(SpriteKind.Player, SpriteKind.trash, function (player2, trash) {
+        let waste = items.find(item => item.sprite === trash)
+        if (waste && waste.spriteType == SpriteType.GARBAGE) {
+
+            trash.follow(player2, 100)
+        }
+    })
+sprites.onOverlap(SpriteKind.trash, SpriteKind.trashCan, function (trash, can) {
+        let waste2 = items.find(item => item.sprite === trash)
+        let bin = items.find(item => item.sprite === can)
+        if (waste2 && bin && waste2.trashType == bin.trashType) {
+
+            info.changeScoreBy(-1)
+        } else {
+
+            info.changeScoreBy(1)
+        }
+        trash.destroy()
+    })
+}
+function startLevel () {
+    generateWasteObjectsForLevel(1)
+    positionAndMoveSprites()
+    fish = sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . c c c c . . . . 
+        . . . . . . c c d d d d c . . . 
+        . . . . . c c c c c c d c . . . 
+        . . . . c c 4 4 4 4 d c c . . . 
+        . . . c 4 d 4 4 4 4 4 1 c . c c 
+        . . c 4 4 4 1 4 4 4 4 d 1 c 4 c 
+        . c 4 4 4 4 1 4 4 4 4 4 1 c 4 c 
+        f 4 4 4 4 4 1 4 4 4 4 4 1 4 4 f 
+        f 4 4 4 f 4 1 c c 4 4 4 1 f 4 f 
+        f 4 4 4 3 4 1 4 4 f 4 4 d f 4 f 
+        . f 4 4 4 4 1 c 4 f 4 d f f f f 
+        . . f f 4 d 4 4 f f 4 c f c . . 
+        . . . . f f 4 4 4 4 c d b c . . 
+        . . . . . . f f f f d d d c . . 
+        . . . . . . . . . . c c c . . . 
+        `, SpriteKind.Player)
+    fish.setPosition(80, 20)
+    controller.moveSprite(fish)
+}
+function positionAndMoveSprites () {
+    const listOfCans = items.filter(item => item.spriteType === SpriteType.CAN)
+    listOfCans.forEach(item => {
+        item.sprite.setPosition(160 / listOfCans.length + 1, 110)
+    })
+    const listOfGarbage = items.filter(item => item.spriteType === SpriteType.GARBAGE)
+    listOfGarbage.forEach((item, index) => {
+        setTimeout(() => {
+            item.sprite.setPosition(-10, 60)
+            item.sprite.vx = 10
+        }, 3000 * index) 
+    })
+}
+let fish: Sprite = null
+let randomTrashType2 = 0
+let randomTrashType = 0
+let selectedTrashTypes: number[] = []
 scene.setBackgroundImage(img`
     8fffffffffffffffffffffffff88fffff88ffff8998889999999989988888989999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
     ffffffffffffffffffffffffff8fffff88ff9f88889889999999989998888898999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
@@ -153,152 +200,31 @@ scene.setBackgroundImage(img`
     6cccccccccccccc66666ccccccccccccccccccc6666cccc6644bccccccccccccc8666666666666f66666ffffffff666666666666666666ccccccccccccccccccccccccccccccccccccccccccccccccc8
     6cccccccccccccc66666ccccccccccccccccccc666ccccc6666ccccccccccccccf666666666666ff6666ffffffff6666666666666666666ccccccccccccccc6cccccccccccccccccccccccccccccccc8
     `)
-let fish = sprites.create(img`
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . c c c c . . . . 
-    . . . . . . c c d d d d c . . . 
-    . . . . . c c c c c c d c . . . 
-    . . . . c c 4 4 4 4 d c c . . . 
-    . . . c 4 d 4 4 4 4 4 1 c . c c 
-    . . c 4 4 4 1 4 4 4 4 d 1 c 4 c 
-    . c 4 4 4 4 1 4 4 4 4 4 1 c 4 c 
-    f 4 4 4 4 4 1 4 4 4 4 4 1 4 4 f 
-    f 4 4 4 f 4 1 c c 4 4 4 1 f 4 f 
-    f 4 4 4 3 4 1 4 4 f 4 4 d f 4 f 
-    . f 4 4 4 4 1 c 4 f 4 d f f f f 
-    . . f f 4 d 4 4 f f 4 c f c . . 
-    . . . . f f 4 4 4 4 c d b c . . 
-    . . . . . . f f f f d d d c . . 
-    . . . . . . . . . . c c c . . . 
-    `, SpriteKind.Player)
-controller.moveSprite(fish)
-let fork = sprites.create(img`
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . 1 . 1 . 1 . . . . . . 
-    . . . . . 1 . 1 . 1 . . . . . . 
-    . . . . . 1 . 1 . 1 . . . . . . 
-    . . . . . 1 . 1 . 1 . . . . . . 
-    . . . . . . 1 1 1 . . . . . . . 
-    . . . . . . . 1 . . . . . . . . 
-    . . . . . . . 1 . . . . . . . . 
-    . . . . . . . 1 . . . . . . . . 
-    . . . . . . . 1 . . . . . . . . 
-    . . . . . . . 1 . . . . . . . . 
-    . . . . . . . 1 . . . . . . . . 
-    . . . . . . . 1 . . . . . . . . 
-    . . . . . . . 1 . . . . . . . . 
-    . . . . . . . 1 . . . . . . . . 
-    `, SpriteKind.trash)
-can = sprites.create(img`
-    . . . . . . . . . . . . . . . . 
-    . . . . . c c c c c c . . . . . 
-    . . . . c b d d d d b c . . . . 
-    . . . c b d d d f f d b c . . . 
-    . . . c c b d d d d d c c . . . 
-    . . . c b c c c c c c b c . . . 
-    . . . c b b d d d d b b c . . . 
-    . . . c b d d d d d b b c . . . 
-    . . . c b d d d d d b b c . . . 
-    . . . c b d d d d d d b c . . . 
-    . . . c b b d d d d d b c . . . 
-    . . . c b b d d d d d b c . . . 
-    . . . c b d d d d d b b c . . . 
-    . . . c b b b d d d b b c . . . 
-    . . . . c c b b b b b c . . . . 
-    . . . . . c c c c c c . . . . . 
-    `, SpriteKind.trash)
-let sock = sprites.create(img`
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . 9 9 9 9 . . . . . 
-    . . . . . . . 6 6 6 6 . . . . . 
-    . . . . . . . 6 6 6 6 . . . . . 
-    . . . . . . . 6 6 6 6 . . . . . 
-    . . . . . . . 6 6 6 6 . . . . . 
-    . . . . . . 6 6 6 6 6 . . . . . 
-    . . . . . 6 6 6 6 6 6 . . . . . 
-    . . 6 6 6 6 6 6 6 6 6 . . . . . 
-    9 6 6 6 6 6 6 6 9 9 9 . . . . . 
-    9 6 6 6 6 6 6 6 9 9 9 . . . . . 
-    9 9 6 6 6 6 6 6 9 9 . . . . . . 
-    . 9 9 6 6 . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    `, SpriteKind.trash)
-let tshirt = sprites.create(img`
-    . . . . . . . . . . . . . . . . 
-    . . . f f f f f f f f f . . . . 
-    . . f 1 1 f d d d f 1 1 f . . . 
-    . f 1 1 1 f d d d f 1 1 1 f . . 
-    f 1 1 1 1 1 f f f 1 1 1 1 1 f . 
-    f 1 1 1 1 1 1 1 1 1 1 1 1 1 f . 
-    f 1 1 f 1 1 1 1 2 4 1 f 1 1 f . 
-    f f f f 1 1 1 1 2 2 1 f f f f . 
-    . . . f 1 1 1 1 2 1 1 f . . . . 
-    . . . f 1 1 1 1 1 1 1 f . . . . 
-    . . . f 1 1 1 1 1 4 1 f . . . . 
-    . . . f 1 1 1 1 1 1 1 f . . . . 
-    . . . f 1 1 1 1 1 1 1 f . . . . 
-    . . . f f f f f f f f f . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    `, SpriteKind.trash)
-bag = sprites.create(img`
-    . . . . . . . . . . . . . . . . 
-    . . . . . . 1 1 1 1 . . . . . . 
-    . . . . . 1 . . . . 1 . . . . . 
-    . . . . . 1 . . . . 1 . . . . . 
-    . . . . . 1 . . . . 1 . . . . . 
-    . . 1 1 1 1 1 1 1 1 1 1 1 1 . . 
-    . 1 1 2 1 1 2 1 2 2 1 2 2 1 . . 
-    . 1 1 2 1 1 2 1 2 1 2 1 2 1 . . 
-    . 1 1 2 2 2 2 1 2 1 1 1 2 1 1 . 
-    . 1 1 2 1 1 2 1 2 1 1 1 2 1 1 . 
-    . 1 1 2 1 1 2 1 2 1 1 1 2 1 1 . 
-    . . 1 1 1 1 1 1 1 1 1 1 1 1 . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    `, SpriteKind.trash)
-apple = sprites.create(img`
-    . . . . . . . e c 7 . . . . . . 
-    . . . . e e e c 7 7 e e . . . . 
-    . . c e e e e c 7 e 2 2 e e . . 
-    . . . e e e e c 6 e e 2 2 2 . . 
-    . . . 2 e 2 e c c 2 4 5 2 . . . 
-    . . . . d 2 2 2 2 2 4 2 . . . . 
-    . . . . . d 2 2 2 2 d d . . . . 
-    . . . . . . d d d d d . . . . . 
-    . . . . . . . d e d . . . . . . 
-    . . . . . . . d e d . . . . . . 
-    . . . . . . . d d e . . . . . . 
-    . . . . . . d d d d d . . . . . 
-    . . . . . d d d d d d d . . . . 
-    . . . . 2 d d d d d d d 2 . . . 
-    . . . 2 2 e e 4 d 4 2 e e 2 . . 
-    . . . . . 2 2 e e e e . . . . . 
-    `, SpriteKind.trash)
-banana = sprites.create(img`
-    . . . . . . e . . . . . . . . . 
-    . . . . . . e e . . . . . . . . 
-    . . . . . . e e e . . . . . . . 
-    . . . . . . . e 5 . . . . . . . 
-    . . . . . . 5 5 5 5 . . . . . . 
-    . . . . . . 5 5 5 5 . . . . . . 
-    . . . . . . 5 5 5 5 . . . . . . 
-    . . . . . 5 5 5 5 5 5 . . . . . 
-    . . . . . 5 5 5 5 5 5 5 . . . . 
-    . . . . 5 5 5 d 5 5 5 5 5 . . . 
-    . . . . 5 5 d d d 5 5 5 5 5 . . 
-    . . . 5 5 5 d d 5 . 5 5 5 5 . . 
-    . . 5 5 5 d d 5 5 5 . 5 5 5 5 . 
-    . 5 5 d d d . . 5 5 . . 5 5 5 5 
-    5 d d d . . . . . . . . . . 5 5 
-    d d d . . . . . . . . . . . . 5 
-    `, SpriteKind.trash)
-foodWaste = sprites.create(img`
+const SpriteType = {
+    CAN: 1,
+    GARBAGE: 2
+}
+const TrashType = {
+    Food: 1,
+    Hazardous: 2,
+    Glass: 3,
+    Container: 4,
+    Rest: 5,
+    Metal: 6,
+    Cardboard: 7,
+    Paper: 8,
+    Plastic: 9,
+    Clothes: 10
+}
+const wasteObject = (spriteType: number, spriteImg: Image, trashType: number): any => {
+    return {
+        spriteType: spriteType,
+        sprite: sprites.create(spriteImg, spriteType === SpriteType.CAN ? SpriteKind.trashCan : SpriteKind.trash),
+        trashType: trashType
+    }
+}
+let items = [
+wasteObject(SpriteType.CAN, img`
     ................................
     ................................
     ................................
@@ -331,8 +257,44 @@ foodWaste = sprites.create(img`
     ................................
     ................................
     ................................
-    `, SpriteKind.trashCan)
-let hazardousWaste = sprites.create(img`
+    `, TrashType.Food),
+wasteObject(SpriteType.GARBAGE, img`
+    . . . . . . e . . . . . . . . . 
+    . . . . . . e e . . . . . . . . 
+    . . . . . . e e e . . . . . . . 
+    . . . . . . . e 5 . . . . . . . 
+    . . . . . . 5 5 5 5 . . . . . . 
+    . . . . . . 5 5 5 5 . . . . . . 
+    . . . . . . 5 5 5 5 . . . . . . 
+    . . . . . 5 5 5 5 5 5 . . . . . 
+    . . . . . 5 5 5 5 5 5 5 . . . . 
+    . . . . 5 5 5 d 5 5 5 5 5 . . . 
+    . . . . 5 5 d d d 5 5 5 5 5 . . 
+    . . . 5 5 5 d d 5 . 5 5 5 5 . . 
+    . . 5 5 5 d d 5 5 5 . 5 5 5 5 . 
+    . 5 5 d d d . . 5 5 . . 5 5 5 5 
+    5 d d d . . . . . . . . . . 5 5 
+    d d d . . . . . . . . . . . . 5 
+    `, TrashType.Food),
+wasteObject(SpriteType.GARBAGE, img`
+    . . . . . . . e c 7 . . . . . . 
+    . . . . e e e c 7 7 e e . . . . 
+    . . c e e e e c 7 e 2 2 e e . . 
+    . . . e e e e c 6 e e 2 2 2 . . 
+    . . . 2 e 2 e c c 2 4 5 2 . . . 
+    . . . . d 2 2 2 2 2 4 2 . . . . 
+    . . . . . d 2 2 2 2 d d . . . . 
+    . . . . . . d d d d d . . . . . 
+    . . . . . . . d e d . . . . . . 
+    . . . . . . . d e d . . . . . . 
+    . . . . . . . d d e . . . . . . 
+    . . . . . . d d d d d . . . . . 
+    . . . . . d d d d d d d . . . . 
+    . . . . 2 d d d d d d d 2 . . . 
+    . . . 2 2 e e 4 d 4 2 e e 2 . . 
+    . . . . . 2 2 e e e e . . . . . 
+    `, TrashType.Food),
+wasteObject(SpriteType.CAN, img`
     ................................
     ................................
     ................................
@@ -365,8 +327,8 @@ let hazardousWaste = sprites.create(img`
     ................................
     ................................
     ................................
-    `, SpriteKind.trashCan)
-let glassWaste = sprites.create(img`
+    `, TrashType.Hazardous),
+wasteObject(SpriteType.CAN, img`
     ................................
     ................................
     ................................
@@ -399,42 +361,8 @@ let glassWaste = sprites.create(img`
     ................................
     ................................
     ................................
-    `, SpriteKind.trashCan)
-let containerWaste = sprites.create(img`
-    ................................
-    ................................
-    ................................
-    ................................
-    ................................
-    ................................
-    ..............fffffffffff.......
-    .............fffdddddddff.......
-    ...........fffdfddddddfff.......
-    ..........ffdddfdddddffbf.......
-    .........ffddddfddddffbbf.......
-    ........fffffffffffffbbbf.......
-    ........ffbbbbbbbbbfbbbbf.......
-    .........fbbbbbbbbbfbbbbf.......
-    .........fbbbbbbbbbfbbbbf.......
-    .........fbbbb11bbbfbbbbf.......
-    .........fbbb111bbbfbbbbf.......
-    .........fbbb111bbbfbbbbf.......
-    .........fbbb111bbbfbbbbf.......
-    .........fbbb111bbbfbbbbf.......
-    .........fbbb111bbbfbbbbf.......
-    .........fbbb111bbbfbbbbf.......
-    .........fbbb111bbbfbbbbf.......
-    .........fbbbbbbbbbfbbbbf.......
-    .........fbbbbbbbbbfbbbbf.......
-    .........fbbbbbbbbbfbbbbf.......
-    .........fbbbbbbbbbfbbbff.......
-    .........fbbbbbbbbbfbff.........
-    .........fffffffffffff..........
-    ................................
-    ................................
-    ................................
-    `, SpriteKind.trashCan)
-let restWaste = sprites.create(img`
+    `, TrashType.Glass),
+wasteObject(SpriteType.CAN, img`
     ................................
     ................................
     ................................
@@ -467,8 +395,8 @@ let restWaste = sprites.create(img`
     ................................
     ................................
     ................................
-    `, SpriteKind.trashCan)
-metalWaste = sprites.create(img`
+    `, TrashType.Rest),
+wasteObject(SpriteType.CAN, img`
     ................................
     ................................
     ................................
@@ -501,8 +429,26 @@ metalWaste = sprites.create(img`
     ................................
     ................................
     ................................
-    `, SpriteKind.trashCan)
-let cardboardWaste = sprites.create(img`
+    `, TrashType.Metal),
+wasteObject(SpriteType.GARBAGE, img`
+    . . . . . . . . . . . . . . . . 
+    . . . . . c c c c c c . . . . . 
+    . . . . c b d d d d b c . . . . 
+    . . . c b d d d f f d b c . . . 
+    . . . c c b d d d d d c c . . . 
+    . . . c b c c c c c c b c . . . 
+    . . . c b b d d d d b b c . . . 
+    . . . c b d d d d d b b c . . . 
+    . . . c b d d d d d b b c . . . 
+    . . . c b d d d d d d b c . . . 
+    . . . c b b d d d d d b c . . . 
+    . . . c b b d d d d d b c . . . 
+    . . . c b d d d d d b b c . . . 
+    . . . c b b b d d d b b c . . . 
+    . . . . c c b b b b b c . . . . 
+    . . . . . c c c c c c . . . . . 
+    `, TrashType.Metal),
+wasteObject(SpriteType.CAN, img`
     ................................
     ................................
     ................................
@@ -535,8 +481,8 @@ let cardboardWaste = sprites.create(img`
     ................................
     ................................
     ................................
-    `, SpriteKind.trashCan)
-let paperWaste = sprites.create(img`
+    `, TrashType.Cardboard),
+wasteObject(SpriteType.CAN, img`
     ................................
     ................................
     ................................
@@ -569,8 +515,8 @@ let paperWaste = sprites.create(img`
     ................................
     ................................
     ................................
-    `, SpriteKind.trashCan)
-plasticWaste = sprites.create(img`
+    `, TrashType.Paper),
+wasteObject(SpriteType.CAN, img`
     ................................
     ................................
     ................................
@@ -603,8 +549,44 @@ plasticWaste = sprites.create(img`
     ................................
     ................................
     ................................
-    `, SpriteKind.trashCan)
-let clothesWaste = sprites.create(img`
+    `, TrashType.Plastic),
+wasteObject(SpriteType.GARBAGE, img`
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . 1 . 1 . 1 . . . . . . 
+    . . . . . 1 . 1 . 1 . . . . . . 
+    . . . . . 1 . 1 . 1 . . . . . . 
+    . . . . . 1 . 1 . 1 . . . . . . 
+    . . . . . . 1 1 1 . . . . . . . 
+    . . . . . . . 1 . . . . . . . . 
+    . . . . . . . 1 . . . . . . . . 
+    . . . . . . . 1 . . . . . . . . 
+    . . . . . . . 1 . . . . . . . . 
+    . . . . . . . 1 . . . . . . . . 
+    . . . . . . . 1 . . . . . . . . 
+    . . . . . . . 1 . . . . . . . . 
+    . . . . . . . 1 . . . . . . . . 
+    . . . . . . . 1 . . . . . . . . 
+    `, TrashType.Plastic),
+wasteObject(SpriteType.GARBAGE, img`
+    . . . . . . . . . . . . . . . . 
+    . . . . . . 1 1 1 1 . . . . . . 
+    . . . . . 1 . . . . 1 . . . . . 
+    . . . . . 1 . . . . 1 . . . . . 
+    . . . . . 1 . . . . 1 . . . . . 
+    . . 1 1 1 1 1 1 1 1 1 1 1 1 . . 
+    . 1 1 2 1 1 2 1 2 2 1 2 2 1 . . 
+    . 1 1 2 1 1 2 1 2 1 2 1 2 1 . . 
+    . 1 1 2 2 2 2 1 2 1 1 1 2 1 1 . 
+    . 1 1 2 1 1 2 1 2 1 1 1 2 1 1 . 
+    . 1 1 2 1 1 2 1 2 1 1 1 2 1 1 . 
+    . . 1 1 1 1 1 1 1 1 1 1 1 1 . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    `, TrashType.Plastic),
+wasteObject(SpriteType.CAN, img`
     ................................
     ................................
     ................................
@@ -637,48 +619,51 @@ let clothesWaste = sprites.create(img`
     ................................
     ................................
     ................................
-    `, SpriteKind.trashCan)
-const SpriteType = {
-    CAN: 1,
-    GARBAGE: 2
-}
-const TrashType = {
-    Food: 1,
-    Hazardous: 2,
-    Glass: 3,
-    Container: 4,
-    Rest: 5,
-    Metal: 6,
-    Cardboard: 7,
-    Paper: 8,
-    Plastic: 9,
-    Clothes: 10
-}
-const wasteObject = (spriteType: any, sprite: Sprite, trashType: any) =>  {
-    return {
-        spriteType,
-        sprite,
-        trashType
-    }
-}
-let items = [
-wasteObject(SpriteType.CAN, foodWaste, TrashType.Food),
-wasteObject(SpriteType.GARBAGE, banana, TrashType.Food),
-wasteObject(SpriteType.GARBAGE, apple, TrashType.Food),
-wasteObject(SpriteType.CAN, hazardousWaste, TrashType.Hazardous),
-wasteObject(SpriteType.CAN, glassWaste, TrashType.Glass),
-wasteObject(SpriteType.CAN, restWaste, TrashType.Rest),
-wasteObject(SpriteType.CAN, metalWaste, TrashType.Metal),
-wasteObject(SpriteType.GARBAGE, can, TrashType.Metal),
-wasteObject(SpriteType.CAN, cardboardWaste, TrashType.Cardboard),
-wasteObject(SpriteType.CAN, paperWaste, TrashType.Paper),
-wasteObject(SpriteType.CAN, plasticWaste, TrashType.Plastic),
-wasteObject(SpriteType.GARBAGE, fork, TrashType.Plastic),
-wasteObject(SpriteType.GARBAGE, bag, TrashType.Plastic),
-wasteObject(SpriteType.CAN, clothesWaste, TrashType.Clothes),
-wasteObject(SpriteType.GARBAGE, tshirt, TrashType.Clothes),
-wasteObject(SpriteType.GARBAGE, sock, TrashType.Clothes)
+    `, TrashType.Clothes),
+wasteObject(SpriteType.GARBAGE, img`
+    . . . . . . . . . . . . . . . . 
+    . . . f f f f f f f f f . . . . 
+    . . f 1 1 f d d d f 1 1 f . . . 
+    . f 1 1 1 f d d d f 1 1 1 f . . 
+    f 1 1 1 1 1 f f f 1 1 1 1 1 f . 
+    f 1 1 1 1 1 1 1 1 1 1 1 1 1 f . 
+    f 1 1 f 1 1 1 1 2 4 1 f 1 1 f . 
+    f f f f 1 1 1 1 2 2 1 f f f f . 
+    . . . f 1 1 1 1 2 1 1 f . . . . 
+    . . . f 1 1 1 1 1 1 1 f . . . . 
+    . . . f 1 1 1 1 1 4 1 f . . . . 
+    . . . f 1 1 1 1 1 1 1 f . . . . 
+    . . . f 1 1 1 1 1 1 1 f . . . . 
+    . . . f f f f f f f f f . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    `, TrashType.Clothes),
+wasteObject(SpriteType.GARBAGE, img`
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . 9 9 9 9 . . . . . 
+    . . . . . . . 6 6 6 6 . . . . . 
+    . . . . . . . 6 6 6 6 . . . . . 
+    . . . . . . . 6 6 6 6 . . . . . 
+    . . . . . . . 6 6 6 6 . . . . . 
+    . . . . . . 6 6 6 6 6 . . . . . 
+    . . . . . 6 6 6 6 6 6 . . . . . 
+    . . 6 6 6 6 6 6 6 6 6 . . . . . 
+    9 6 6 6 6 6 6 6 9 9 9 . . . . . 
+    9 6 6 6 6 6 6 6 9 9 9 . . . . . 
+    9 9 6 6 6 6 6 6 9 9 . . . . . . 
+    . 9 9 6 6 . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    `, TrashType.Clothes)
 ]
-function overlaps(a: any, b: any) {
-    
-}
+setupOverlapHandlers()
+startLevel()
+game.onUpdate(function () {
+    items.forEach(item => {
+        console.log(item)
+        if (item.spriteType === SpriteType.GARBAGE && item.sprite.x > screen.width + 10) {
+            item.sprite.x = -10
+        }
+    })
+})
