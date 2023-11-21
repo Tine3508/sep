@@ -23,8 +23,6 @@ function generateWasteObjectsForLevel () {
         // if the randomly chosen trashtype is not inside the trashtypes we selected then we add it to the list (push == add)
         if (!(arrayContains(selectedTrashTypes, randomTrashType))) {
             selectedTrashTypes.push(randomTrashType)
-
-
         }
     }
     selectedTrashTypes.forEach(trashType => {
@@ -41,7 +39,7 @@ function generateWasteObjectsForLevel () {
             wasteObjectsByLevel.push(item);
         });
     });
-positionAndMoveSprites()
+    positionAndMoveSprites()
 }
 function generateWasteObjectList () {
     wasteObjects = [
@@ -480,14 +478,18 @@ f f f f 1 1 1 1 2 2 1 f f f f .
     ]
 }
 info.onScore(2, function () {
-    info.setScore(0)
+    // sets score to 0
+    // calculate next level
     nextLevel = currentLevel + 1
     if (nextLevel == 4) {
         fish.sayText("Congratulations you won!!")
+        // destroy all wasteobjects
         wasteObjects.forEach((obj: WasteObject) => obj.sprite.destroy() )
     } else {
+        info.setScore(0)
         currentLevel = nextLevel
         fish.sayText("Good job! Onwards to level " + currentLevel, 2000)
+        // generate next level
         generateWasteObjectsForLevel()
     }
 })
@@ -541,6 +543,7 @@ sprites.onOverlap(SpriteKind.trash, SpriteKind.trashCan, function (trash, can) {
     })
 }
 function startLevel () {
+    // set background image
     scene.setBackgroundImage(img`
         8fffffffffffffffffffffffff88fffff88ffff8998889999999989988888989999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
         ffffffffffffffffffffffffff8fffff88ff9f88889889999999989998888898999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
@@ -663,6 +666,7 @@ function startLevel () {
         6cccccccccccccc66666ccccccccccccccccccc6666cccc6644bccccccccccccc8666666666666f66666ffffffff666666666666666666ccccccccccccccccccccccccccccccccccccccccccccccccc8
         6cccccccccccccc66666ccccccccccccccccccc666ccccc6666ccccccccccccccf666666666666ff6666ffffffff6666666666666666666ccccccccccccccc6cccccccccccccccccccccccccccccccc8
         `)
+    // set fishy image
     fish = sprites.create(img`
         . . . . . . . . . . . . . . . . 
         . . . . . . . . c c c c . . . . 
@@ -681,11 +685,17 @@ function startLevel () {
         . . . . . . f f f f d d d c . . 
         . . . . . . . . . . c c c . . . 
         `, SpriteKind.Player)
+    // set fishy position
     fish.setPosition(80, 100)
     fish.sayText("Hello! Use the wasd to move me. Move the garbage to the correct containers.", 3000)
+    // enable movement to fishy
     controller.moveSprite(fish)
+    // generate all wasteobjects to a list
     generateWasteObjectList()
+    //generates the first level
     generateWasteObjectsForLevel()
+
+    // if a garbage/trash reaches the right wall, sets it to the left side
     game.onUpdate(function () {
         wasteObjectsByLevel.forEach((item: WasteObject) => {
             if (item.spriteType === SpriteType.GARBAGE && item.sprite.x > screen.width + 10) {
@@ -695,12 +705,14 @@ function startLevel () {
     })
 }
 function positionAndMoveSprites () {
-    const listOfCans = items.filter(item => item.spriteType === SpriteType.CAN)
-listOfCans.forEach(item => {
-        item.sprite.setPosition(160 / listOfCans.length + 1, 110)
-    })
-const listOfGarbage = items.filter(item => item.spriteType === SpriteType.GARBAGE)
-listOfGarbage.forEach((item, index) => {
+    // filter level waste objects by spriteType CAN
+    const listOfCans = wasteObjectsByLevel.filter((item: WasteObject) => item.spriteType === SpriteType.CAN)
+    listOfCans.forEach(item => {
+            item.sprite.setPosition(160 / listOfCans.length + 1, 110)
+        })
+    // filter level waste objects by spriteType GARBAGE
+    const listOfGarbage = wasteObjectsByLevel.filter((item: WasteObject) => item.spriteType === SpriteType.GARBAGE)
+    listOfGarbage.forEach((item: WasteObject, index) => {
         setTimeout(() => {
             // set the position
             item.sprite.setPosition(-10, 60);
@@ -714,32 +726,30 @@ setupOverlapHandlers()
 // set the fish to inactive in the beginning
 let fish: Sprite = null
 // the next level
-let nextLevel = 0
+let nextLevel = 1
 // this is for setting a random trashtype in the code, so that we can randomize the trashtypes we filter by.
 let randomTrashType = 0
 // current level
-let currentLevel = 0
+let currentLevel = 1
 // a list of wasteObject, which is set to empty '[]'. This is all wasteObjects
 let wasteObjects: WasteObject[] = []
 // a list of TrashType, which is set to empty '[]'. This is for storing the trashTypes we want to find
 let selectedTrashTypes: number[] = []
 // a list of wasteObject, which is set to empty '[]'. This is for storing the ones we need to show.
 let wasteObjectsByLevel: any[] = []
-namespace SpriteKind {
-    // creates the types of images
-    export const trash = SpriteKind.create()
-    export const trashCan = SpriteKind.create()
-}
-// set the initial level to 1
-currentLevel = 1
+
+// this is the wasteObject interface. This is used so the code knows what the object is.
 interface WasteObject {
     spriteType: number;
     sprite: Sprite;
     trashType: number;
     isFollowing: boolean;
-
 }
+
+// the spritetype enum. Contains all the spritetypes
 const SpriteType = { CAN: 1, GARBAGE: 2 }
+
+// the trashtype enum. Contains all the trashtypes
 const TrashType = {
     Food: 1,
     Hazardous: 2,
@@ -752,6 +762,8 @@ const TrashType = {
     Plastic: 9,
     Clothes: 10
 }
+
+// this is a waste object. you put in parameters(the paranthesis), and you get an object in return.
 const wasteObject = (spriteType: number, spriteImg: Image, trashType: number, isFollowing: boolean = false): any => {
     return {
         spriteType: spriteType,
