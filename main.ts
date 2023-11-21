@@ -4,7 +4,7 @@ namespace SpriteKind {
 }
 function generateWasteObjectsForLevel (level: number) {
     items.forEach(item => item.sprite.setPosition(-50, -50))
-    while (selectedTrashTypes.length < level) {
+while (selectedTrashTypes.length < level) {
         randomTrashType2 = Math.floor(Math.random() * Object.keys(TrashType).length / 2) + 1
         if (!(selectedTrashTypes.some(item => item == randomTrashType2))) {
             selectedTrashTypes.push(randomTrashType2)
@@ -63,11 +63,11 @@ function startLevel () {
 }
 function positionAndMoveSprites () {
     const listOfCans = items.filter(item => item.spriteType === SpriteType.CAN)
-    listOfCans.forEach(item => {
+listOfCans.forEach(item => {
         item.sprite.setPosition(160 / listOfCans.length + 1, 110)
     })
-    const listOfGarbage = items.filter(item => item.spriteType === SpriteType.GARBAGE)
-    listOfGarbage.forEach((item, index) => {
+const listOfGarbage = items.filter(item => item.spriteType === SpriteType.GARBAGE)
+listOfGarbage.forEach((item, index) => {
         setTimeout(() => {
             item.sprite.setPosition(-10, 60)
             item.sprite.vx = 10
@@ -75,9 +75,9 @@ function positionAndMoveSprites () {
     })
 }
 let fish: Sprite = null
-let randomTrashType2 = 0
-let randomTrashType = 0
 let selectedTrashTypes: number[] = []
+let randomTrashType = 0
+let randomTrashType2 = 0
 scene.setBackgroundImage(img`
     8fffffffffffffffffffffffff88fffff88ffff8998889999999989988888989999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
     ffffffffffffffffffffffffff8fffff88ff9f88889889999999989998888898999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
