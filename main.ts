@@ -477,18 +477,16 @@ f f f f 1 1 1 1 2 2 1 f f f f .
 `, TrashType.Clothes)
     ]
 }
-info.onScore(2, function () {
-    // sets score to 0
+info.onScore(5, function () {
     // calculate next level
-    nextLevel = currentLevel + 1
-    if (nextLevel == 4) {
+    if ((currentLevel + 1) == 4) {
         fish.sayText("Congratulations you won!!")
         // destroy all wasteobjects
         wasteObjects.forEach((obj: WasteObject) => obj.sprite.destroy() )
     } else {
+        // sets score to 0
         info.setScore(0)
-        currentLevel = nextLevel
-        fish.sayText("Good job! Onwards to level " + currentLevel, 2000)
+        fish.sayText("Good job! Onwards to level " + (currentLevel + 1), 2000)
         // generate next level
         generateWasteObjectsForLevel()
     }
@@ -705,12 +703,12 @@ function startLevel () {
 }
 function positionAndMoveSprites () {
     // filter level waste objects by spriteType CAN
-    const listOfCans = wasteObjectsByLevel.filter((item: WasteObject) => item.spriteType === SpriteType.CAN)
-    listOfCans.forEach(item => {
-            item.sprite.setPosition(160 / listOfCans.length + 1, 110)
-        })
-    // filter level waste objects by spriteType GARBAGE
-    const listOfGarbage = wasteObjectsByLevel.filter((item: WasteObject) => item.spriteType === SpriteType.GARBAGE)
+    const listOfCans = wasteObjectsByLevel.filter((item: WasteObject) => item.spriteType === SpriteType.CAN);
+    listOfCans.forEach((item, index) => {
+        // set the position to be dynamic to the screen width
+        item.sprite.setPosition(160 / (listOfCans.length + 1) * (index + 1), 110);
+    });
+    const listOfGarbage = wasteObjectsByLevel.filter((item: WasteObject) => item.spriteType === SpriteType.GARBAGE);
     listOfGarbage.forEach((item: WasteObject, index) => {
         setTimeout(() => {
             // set the position
@@ -725,8 +723,6 @@ function positionAndMoveSprites () {
 }
 // set the fish to inactive in the beginning
 let fish: Sprite = null
-// the next level
-let nextLevel = 1
 // this is for setting a random trashtype in the code, so that we can randomize the trashtypes we filter by.
 let randomTrashType = 0
 // current level
