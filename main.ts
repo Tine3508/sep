@@ -1,3 +1,7 @@
+namespace SpriteKind {
+    export const trash = SpriteKind.create()
+    export const trashCan = SpriteKind.create()
+}
 // generate and render waste objects for the level
 function generateWasteObjectsForLevel () {
     wasteObjects.forEach((item: WasteObject) => {
@@ -19,6 +23,8 @@ function generateWasteObjectsForLevel () {
         // if the randomly chosen trashtype is not inside the trashtypes we selected then we add it to the list (push == add)
         if (!(arrayContains(selectedTrashTypes, randomTrashType))) {
             selectedTrashTypes.push(randomTrashType)
+
+
         }
     }
     selectedTrashTypes.forEach(trashType => {
@@ -689,15 +695,12 @@ function startLevel () {
     })
 }
 function positionAndMoveSprites () {
-    
-    const listOfCans = wasteObjectsByLevel.filter((item: WasteObject) => item.spriteType === SpriteType.CAN);
-listOfCans.forEach((item, index) => {
-        // set the position to be dynamic to the screen width
-        item.sprite.setPosition(160 / (listOfCans.length + 1) * (index + 1), 110);
-    });
-const listOfGarbage = wasteObjectsByLevel.filter((item: WasteObject) => item.spriteType === SpriteType.GARBAGE);
-listOfGarbage.forEach((item: WasteObject, index) => {
-        // we set a timeout. A timeout is saying 'I want this code to be executed every x milliseconds'.
+    const listOfCans = items.filter(item => item.spriteType === SpriteType.CAN)
+listOfCans.forEach(item => {
+        item.sprite.setPosition(160 / listOfCans.length + 1, 110)
+    })
+const listOfGarbage = items.filter(item => item.spriteType === SpriteType.GARBAGE)
+listOfGarbage.forEach((item, index) => {
         setTimeout(() => {
             // set the position
             item.sprite.setPosition(-10, 60);
@@ -734,6 +737,7 @@ interface WasteObject {
     sprite: Sprite;
     trashType: number;
     isFollowing: boolean;
+
 }
 const SpriteType = { CAN: 1, GARBAGE: 2 }
 const TrashType = {
