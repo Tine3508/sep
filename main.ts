@@ -177,22 +177,38 @@ namespace SpriteGame {
 ................................
 `;
     export const metalWaste = img`
-            . . . . . . . . . . . . . . . .
-            . . . . . c c c c c c . . . . .
-            . . . . c b d d d d b c . . . .
-            . . . c b d d d f f d b c . . .
-            . . . c c b d d d d d c c . . .
-            . . . c b c c c c c c b c . . .
-            . . . c b b d d d d b b c . . .
-            . . . c b d d d d d b b c . . .
-            . . . c b d d d d d b b c . . .
-            . . . c b d d d d d d b c . . .
-            . . . c b b d d d d d b c . . .
-            . . . c b b d d d d d b c . . .
-            . . . c b d d d d d b b c . . .
-            . . . c b b b d d d b b c . . .
-            . . . . c c b b b b b c . . . .
-            . . . . . c c c c c c . . . . .
+    ................................
+    ................................
+    ................................
+    ................................
+    ................................
+    ................................
+    ..............fffffffffff.......
+    .............fffdddddddff.......
+    ...........fffdfddddddfff.......
+    ..........ffdddfdddddff4f.......
+    .........ffddddfddddff44f.......
+    ........fffffffffffff444f.......
+    ........ff444444444f4444f.......
+    .........f444444444f4444f.......
+    .........f444444444f4444f.......
+    .........f414444444f4444f.......
+    .........f414444444f4444f.......
+    .........f411111444f4444f.......
+    .........f441111444f4444f.......
+    .........f441111444f4444f.......
+    .........f441111444f4444f.......
+    .........f441111444f4444f.......
+    .........f441111444f4444f.......
+    .........f444444444f4444f....1..
+    .........f444444444f4444f.......
+    .........f444444444f4444f.......
+    .........f444444444f444ff.......
+    .........f444444444f4ff.........
+    .........fffffffffffff..........
+    ................................
+    ................................
+    ................................
         `; 
     export const can = img`
             . . . . . . . . . . . . . . . .
@@ -420,7 +436,274 @@ namespace SpriteGame {
             . . . . . . . . . . . . . . . .
             . . . . . . . . . . . . . . . .
         `;
-        
+    export const lightBulb = img`
+            . . . . . . f f f f . . . . . . 
+            . . . . . f 1 1 1 1 f . . . . . 
+            . . . . f 1 f 1 1 1 1 f . . . . 
+            . . . f 1 f 1 1 1 1 1 1 f . . . 
+            . . f 1 f 1 1 1 1 1 1 1 1 f . . 
+            . . f 1 1 1 1 5 5 1 1 1 1 f . . 
+            . . f 1 1 1 1 5 5 1 1 1 1 f . . 
+            . . f 1 1 1 1 5 5 1 1 1 1 f . . 
+            . . . f 1 1 1 5 5 1 1 1 f . . . 
+            . . . f 1 1 1 5 5 1 1 1 f . . . 
+            .  . . . f 1 1 5 5 1 1 f . . . . 
+            . . . . . f 1 5 5 1 f . . . . . 
+            . . . . . f 1 5 5 1 f . . . . . 
+            . . . . . f 1 5 5 1 f . . . . . 
+            . . . . . . f f f f . . . . . . 
+            . . . . . . f f f f . . . . . . 
+        `;
+    export const battery = img`
+        . . . . . f f f f f . . . . . . 
+        . . . . f f d d d f f . . . . . 
+        . . . f 5 5 5 1 5 5 5 f . . . . 
+        . . . f 5 5 1 1 1 5 5 f . . . . 
+        . . . f 5 5 5 1 5 5 5 f . . . . 
+        . . . f 7 7 7 7 7 7 7 f . . . . 
+        . . . f 7 7 7 7 7 7 7 f . . . . 
+        . . . f 7 7 7 7 5 7 7 f . . . . 
+        . . . f 7 7 7 5 7 7 7 f . . . . 
+        . . . f 7 7 5 5 5 7 7 f . . . . 
+        . . . f 7 7 7 5 7 7 7 f . . . . 
+        . . . f 7 7 5 7 7 7 7 f . . . . 
+        . . . f 7 7 7 7 7 7 7 f . . . . 
+        . . . f 7 7 1 1 1 7 7 f . . . . 
+        . . . f f 7 7 7 7 7 f f . . . . 
+        . . . . f f f f f f f . . . . . 
+        `;
+    export const cup = img`
+        . . . . . . . . . . . . . . . . 
+        . . f f f f f f f f f f f f . . 
+        . f f 9 9 9 9 9 9 9 9 9 9 f f . 
+        . f 9 9 9 9 9 9 9 9 9 1 9 9 f . 
+        . f 9 9 9 9 9 9 9 9 9 1 9 9 f . 
+        . f 9 9 9 9 9 9 9 9 9 1 9 9 f . 
+        . . f 9 9 9 9 9 9 9 1 9 9 f . . 
+        . . f 9 9 9 9 9 9 9 1 9 9 f . . 
+        . . f 9 9 9 9 9 9 9 1 9 9 f . . 
+        . . . f 9 9 9 9 9 9 1 9 f . . . 
+        . . . f 9 9 9 9 9 9 9 9 f . . . 
+        . . . f 9 f f f f f f 9 f . . . 
+        . . . . f 9 9 9 9 9 9 f . . . . 
+        . . . . f 9 9 9 9 9 9 f . . . . 
+        . . . . f 9 9 9 9 9 9 f . . . . 
+        . . . . . f f f f f f . . . . . 
+        `;
+    export const vine = img`
+        . . . . . . . e e . . . . . . . 
+        . . . . . . . e e . . . . . . . 
+        . . . . . . . e e . . . . . . . 
+        . . . . . . . e e . . . . . . . 
+        . . . . . . f f f f . . . . . . 
+        . . . . . f c c c c f . . . . . 
+        . . . . . f c b a c f . . . . . 
+        . . . . . f c b a c f . . . . . 
+        . . . . . f c b a c f . . . . . 
+        . . . . . f c b a c f . . . . . 
+        . . . . . f c b a c f . . . . . 
+        . . . . . f c b a c f . . . . . 
+        . . . . . f c b a c f . . . . . 
+        . . . . . f c c a c f . . . . . 
+        . . . . . f f c c f f . . . . . 
+        . . . . . . f f f f . . . . . . 
+        `;
+    export const containerWaste = img`
+    ................................
+    ................................
+    ................................
+    ................................
+    ................................
+    ................................
+    ..............fffffffffff.......
+    .............fffdddddddff.......
+    ...........fffdfddddddfff.......
+    ..........ffdddfdddddffbf.......
+    .........ffddddfddddffbbf.......
+    ........fffffffffffffbbbf.......
+    ........ffbbbbbbbbbfbbbbf.......
+    .........fbbbbbbbbbfbbbbf.......
+    .........fbbbbbbbbbfbbbbf.......
+    .........fbbbb11bbbfbbbbf.......
+    .........fbbb111bbbfbbbbf.......
+    .........fbbb111bbbfbbbbf.......
+    .........fbbb111bbbfbbbbf.......
+    .........fbbb111bbbfbbbbf.......
+    .........fbbb111bbbfbbbbf.......
+    .........fbbb111bbbfbbbbf.......
+    .........fbbb111bbbfbbbbf.......
+    .........fbbbbbbbbbfbbbbf.......
+    .........fbbbbbbbbbfbbbbf.......
+    .........fbbbbbbbbbfbbbbf.......
+    .........fbbbbbbbbbfbbbff.......
+    .........fbbbbbbbbbfbff.........
+    .........fffffffffffff..........
+    ................................
+    ................................
+    ................................
+        `;
+    export const box = img`
+        . . . . . . f f . . . . . . . . 
+        . . . . f f e e f f . . . . . . 
+        . . f f e e e e e e f f . . . . 
+        . f e e e e e e e e e e f f . . 
+        . f f f e e e e e e f f e f . . 
+        . f e e f f e e e f e e e f . . 
+        . f e e e e f e f e e e e f . . 
+        . f e e e e e f e e e e e f . . 
+        . f e e e e e f e e e e e f . . 
+        . f e e e e e f e e e e e f . . 
+        . f e e e e e f e e e e e f . . 
+        . f f e e e e f e e e f f f . . 
+        . . . f f e e f e e f f . . . . 
+        . . . . f f e f e f f . . . . . 
+        . . . . . . f f f . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `;
+    export const tampon = img`
+        . . . . . . . . . . . . . . . .
+        . . . . . . e e e . . . . . . .
+        . . . . . e 2 2 e e . . . . . .
+        . . . . . 2 2 2 e e . . . . . .
+        . . . . . e e 2 2 e . . . . . .
+        . . . . . e e 2 e e . . . . . .
+        . . . . . 2 e 2 e e . . . . . .
+        . . . . . 2 e 2 2 e . . . . . .
+        . . . . . e 2 2 2 e . . . . . .
+        . . . . . e 2 2 2 e . . . . . .
+        . . . . . 2 1 1 2 2 . . . . . .
+        . . . . . 1 1 1 1 2 . . . . . .
+        . . . . . . 1 d 1 . . . . . . .
+        . . . . . . . d . . . . . . . .
+        . . . . . . . d . . d . . . . .
+        . . . . . . . . d d . . . . . .
+    `;
+    export const roll = img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . f f f f . . . . . . 
+        . . . . . f b b d d f . . . . . 
+        . . . . f b b d d d d f . . . . 
+        . . . . f f b d d d f f . . . . 
+        . . . . f e f f f f e f . . . . 
+        . . . . f e e e e e e f . . . . 
+        . . . . f f e e e e e f . . . . 
+        . . . . f e f e e e e f . . . . 
+        . . . . f e e f f e e f . . . . 
+        . . . . f e e e e f e f . . . . 
+        . . . . f e e e e e f f . . . . 
+        . . . . f e e e e e e f . . . . 
+        . . . . . f e e e e f . . . . . 
+        . . . . . . f f f f . . . . . . 
+        `;
+    export const tuna = img`
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . b b b b b b b b b . . . 
+    . . . b b 6 b b 6 6 6 6 6 b . . 
+    . . b b 6 6 6 b 6 6 6 f 6 b b . 
+    . . b b 6 6 6 6 6 6 6 6 6 b b . 
+    . . b b 6 6 6 b 6 6 6 6 6 b b . 
+    . . b b b 6 b b 6 6 6 6 6 b b . 
+    . . . b b b b b b b b b b b . . 
+    . . . . b b b b b b b b b . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    `;
+    export const juice = img`
+    . . . . . 4 4 4 4 4 . . . . . . 
+    . . . . . 4 4 4 4 4 . . . . . . 
+    . . . . . 4 4 4 4 4 . . . . . . 
+    . . . . 4 4 4 4 4 4 4 . . . . . 
+    . . . . 4 4 4 f 4 4 4 . . . . . 
+    . . . . 4 4 f 4 4 4 4 . . . . . 
+    . . . . 4 5 5 5 5 5 4 . . . . . 
+    . . . . 4 5 5 5 5 5 4 . . . . . 
+    . . . . 4 5 5 5 5 5 4 . . . . . 
+    . . . . 4 5 5 5 5 5 4 . . . . . 
+    . . . . 4 5 5 5 5 5 4 . . . . . 
+    . . . . 4 5 5 5 5 5 4 . . . . . 
+    . . . . 4 4 4 4 4 4 4 . . . . . 
+    . . . . 4 4 4 4 4 4 4 . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    `;
+    export const coco = img`
+    . . . . . . . . . . . . . . . . 
+    . . . 1 1 1 . . . . . . . . . . 
+    . . . e e e e e e e e e . . . . 
+    . . . e e e e e e e e e . . . . 
+    . . . b b b b b b b b b . . . . 
+    . . . 2 b b b b b b b 2 . . . . 
+    . . . b d d f d f d d b . . . . 
+    . . . b d d d d d d d b . . . . 
+    . . . b d f d d d f d e . . . . 
+    . . . e d d f f f d d e . . . . 
+    . . . e d d d d d d d e . . . . 
+    . . . e e e e e e e e e . . . . 
+    . . . e e e e e e e e e . . . . 
+    . . . e e e e e e e e e . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    `;
+    export const newspaper = img`
+    . . . . . . . . . . . . . . . . 
+    . . d f d d f d f d f d f f f . 
+    . . f d f d f d f d f d f d d . 
+    . . f f f d f d f d f d f f f . 
+    . . f d f d f d f d f d d d f . 
+    . . f d f d d f d d f d f f f . 
+    . . d d d d d d d d d d d d d . 
+    . . d d d d d f 4 4 d d d d d . 
+    . . d d d d d f 4 4 d d d d d . 
+    . . d d d d d f d d d d d d d . 
+    . . d d d e e e e e d d d d d . 
+    . . d d d e e e e e d d d d d . 
+    . . 6 6 6 6 e e e 6 6 6 6 6 6 . 
+    . . 6 6 6 6 6 6 6 6 6 6 6 6 6 . 
+    . . 6 6 6 6 6 6 6 6 6 6 6 6 6 . 
+    . . . . . . . . . . . . . . . . 
+    `;
+    export const fly = img`
+        . . . . . . . . . . . . f f f f 
+        . . . . . . . . . . f f 1 1 b f 
+        . . . . . . . f f f 1 1 1 b 1 f 
+        . . . . f f f 1 1 1 1 b b 1 1 f 
+        . . f f f 1 1 1 1 1 b b b 1 1 f 
+        f f 1 1 1 1 1 1 1 b b b 1 1 1 f 
+        1 1 1 1 1 1 1 b b b b 1 1 1 1 f 
+        f 1 1 1 1 1 b b b b b 1 1 1 f . 
+        . f f 1 b b b b b b 1 1 1 1 f . 
+        . . f f f b b b b b 1 1 1 1 f . 
+        . . f c c b b b b 1 1 1 1 1 f . 
+        . . . f c c c c c 1 1 1 1 f . . 
+        . . . f c c c c f 1 1 1 1 f . . 
+        . . . . f c c f f f 1 1 1 f . . 
+        . . . . f c f . . . f 1 1 f . . 
+        . . . . . f . . . . . f f . . . 
+        `;
+    export const chips = img`
+    . . . . . . . . . . . . . . . . 
+    . 2 5 5 2 5 2 5 2 5 5 5 2 5 5 . 
+    . 2 5 2 5 5 5 5 2 2 5 2 2 5 5 . 
+    . 2 2 5 5 5 2 5 2 5 2 5 2 5 2 . 
+    . 2 5 2 5 5 2 5 2 5 5 5 2 5 5 . 
+    . 2 5 5 2 5 2 5 2 5 5 5 2 5 5 . 
+    . 5 5 5 5 5 5 5 5 5 5 5 5 5 5 . 
+    . 2 2 2 5 5 5 5 5 4 4 5 5 5 5 . 
+    . 2 5 5 5 5 5 5 4 4 4 4 5 5 5 . 
+    . 2 2 2 5 5 5 4 4 4 4 4 4 5 5 . 
+    . 5 5 2 5 5 5 5 4 4 4 4 4 4 5 . 
+    . 2 2 2 5 5 5 5 5 4 4 4 4 5 5 . 
+    . 5 5 5 5 5 5 5 5 5 4 4 5 5 5 . 
+    . 5 5 5 5 5 5 5 5 5 5 5 5 5 5 . 
+    . 5 5 5 5 5 5 5 5 5 5 5 5 5 5 . 
+    . . . . . . . . . . . . . . . . 
+    `;
 }
 
 // generate and render waste objects for the level
@@ -479,7 +762,21 @@ function generateWasteObjectList () {
     wasteObject(SpriteType.GARBAGE, SpriteGame.bag, TrashType.Plastic),
     wasteObject(SpriteType.CAN, SpriteGame.clothesWaste, TrashType.Clothes),
     wasteObject(SpriteType.GARBAGE, SpriteGame.shirt, TrashType.Clothes),
-    wasteObject(SpriteType.GARBAGE, SpriteGame.sock, TrashType.Clothes)
+    wasteObject(SpriteType.GARBAGE, SpriteGame.sock, TrashType.Clothes),
+    wasteObject(SpriteType.GARBAGE, SpriteGame.lightBulb, TrashType.Hazardous),
+    wasteObject(SpriteType.GARBAGE, SpriteGame.battery, TrashType.Hazardous),
+    wasteObject(SpriteType.GARBAGE, SpriteGame.cup, TrashType.Glass),
+    wasteObject(SpriteType.GARBAGE, SpriteGame.vine, TrashType.Glass),
+    wasteObject(SpriteType.CAN, SpriteGame.containerWaste, TrashType.Container),
+    wasteObject(SpriteType.GARBAGE, SpriteGame.box, TrashType.Cardboard),
+    wasteObject(SpriteType.GARBAGE, SpriteGame.tampon, TrashType.Rest),
+    wasteObject(SpriteType.GARBAGE, SpriteGame.roll, TrashType.Cardboard),
+    wasteObject(SpriteType.GARBAGE, SpriteGame.tuna, TrashType.Metal),
+    wasteObject(SpriteType.GARBAGE, SpriteGame.juice, TrashType.Container),
+    wasteObject(SpriteType.GARBAGE, SpriteGame.coco, TrashType.Container),
+    wasteObject(SpriteType.GARBAGE, SpriteGame.newspaper, TrashType.Paper),
+    wasteObject(SpriteType.GARBAGE, SpriteGame.fly, TrashType.Paper),
+    wasteObject(SpriteType.GARBAGE, SpriteGame.chips, TrashType.Rest)
     ]
 }
 info.onScore(5, function () {
