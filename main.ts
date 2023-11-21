@@ -12,7 +12,7 @@ function generateWasteObjectsForLevel () {
         // set position to middle left, just right outside screen
         item.sprite.setPosition(-50, 60);
     });
-// reset the game object list to start fresh each level.
+    // reset the game object list to start fresh each level.
     wasteObjectsByLevel = []
     // reset the chosen trashtypes each level
     selectedTrashTypes = []
@@ -516,30 +516,29 @@ function setupOverlapHandlers () {
             waste.isFollowing = true;
         }
     })
-sprites.onOverlap(SpriteKind.trash, SpriteKind.trashCan, function (trash, can) {
+    sprites.onOverlap(SpriteKind.trash, SpriteKind.trashCan, function (trash, can) {
         // we find the wasteObject where the sprite is equal to the one we are overlapping with.
         // the .find method is saying 'give me the first object you find where the condition is true'
-        let waste2 = wasteObjects.find((item: WasteObject) => item.sprite === trash)
+        let waste = wasteObjects.find((item: WasteObject) => item.sprite === trash)
         let bin = wasteObjects.find((item: WasteObject) => item.sprite === can)
 
         // unfollow the current target
-        waste2.sprite.follow(null)
+        waste.sprite.follow(null)
         // set the position to start position
-        waste2.sprite.setPosition(-10, 60)
+        waste.sprite.setPosition(-10, 60)
         // set the speed of the right movement
-        waste2.sprite.vx = 30
+        waste.sprite.vx = 30
         // set the isFollowing boolean to false
-        waste2.isFollowing = false;
+        waste.isFollowing = false;
 
         // if the bin is not null and the waste trashtype is the same trashtype as the bin:
-        if (bin && waste2.trashType == bin.trashType) {
+        if (waste.trashType == bin.trashType) {
             // increase a point
             info.changeScoreBy(1)
         } else {
             // decrease a point
             info.changeScoreBy(-1)
         }
-        
     })
 }
 function startLevel () {
@@ -721,7 +720,8 @@ function positionAndMoveSprites () {
             // 2500 milliseconds times the current index
         }, 2500 * index);
     });
-setupOverlapHandlers()
+
+    setupOverlapHandlers()
 }
 // set the fish to inactive in the beginning
 let fish: Sprite = null
